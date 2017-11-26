@@ -1,0 +1,5 @@
+C:\Users\vinis\Documents\Visual Studio 2015\Projects\ProductsApp\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\vinis\Documents\Visual Studio 2015\Projects\ProductsApp\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\vinis\Documents\Visual Studio 2015\Projects\ProductsApp\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\vinis\Documents\Visual Studio 2015\Projects\ProductsApp\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\vinis\Documents\Visual Studio 2015\Projects\ProductsApp\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache

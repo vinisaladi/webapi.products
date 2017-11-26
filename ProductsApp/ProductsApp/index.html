@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+</head>
+<body>
+
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+    </div>
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+
+    <div>
+        <h2>Add Product</h2>
+        <input type="text" id="prodId1" size="5" placeholder="Id"/>
+        <input type="text" id="prodName" size="10" placeholder="Name"/>
+        <input type="text" id="prodCategory" size="10" placeholder="Category"/>
+        <input type="text" id="prodPrice" size="5" placeholder="Price"/>
+        <input type="button" value="Add" onclick="Add();" />
+        <p id="product1" />
+    </div>
+
+    <div>
+        <h2>Update Product</h2>
+        <input type="text" id="prodIdUpdate" size="5" placeholder="Id" />
+        <input type="text" id="prodNameUpdate" size="10" placeholder="Name" />
+        <input type="text" id="prodCategoryUpdate" size="10" placeholder="Category" />
+        <input type="text" id="prodPriceUpdate" size="5" placeholder="Price" />
+        <input type="button" value="Update" onclick="Update();" />
+        <p id="product2" />
+    </div>
+
+    <div>
+        <h2>Delete by ID</h2>
+        <input type="text" id="prodIddel" size="5" />
+        <input type="button" value="Delete" onclick="del();" />
+        <p id="productDel" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script> 
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script>
+    
+
+        $(document).ready(function () {
+            var uri = 'api/Products/GetProduct';
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+            // On success, 'data' contains a list of products.
+            $.each(data, function (key, item) {
+              // Add a list item for the product.
+              $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+            });
+          });
+    });
+
+    function formatItem(item) {
+      return item.Name + ': $' + item.Price;
+    }
+
+    function find() {
+        var id = $('#prodId').val();
+        if (id === '') {
+            $('#product').text('Id cannot be null');
+        } else {
+            var uri = 'api/Products/GetProduct/id';
+            $.getJSON(uri + '/?id=' + id)
+                .done(function (data) {
+                    $('#product').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#product').text('Error: ' + err);
+                });
+        }
+    }
+    function Add() {
+        var uri = 'api/Products/GetProduct/Prod';
+        var prod = {
+            Id: $('#prodId1').val(),
+            Name: $('#prodName').val(),
+            Category: $('#prodCategory').val(),
+            Price: $('#prodPrice').val()
+        }
+        $.post(uri,prod)
+        .done(function (data){
+        $('#product1').text('Data Inserted');
+        })
+        .fail(function (jqxHR, textStatus, err){
+            $('#product1').text('Error: ' +err);
+        });
+}
+
+
+    function Update() {
+        var url = 'api/Products/UpdateProduct/Prod';
+        var prod = {
+            Id: $('#prodIdUpdate').val(),
+            Name: $('#prodNameUpdate').val(),
+            Category: $('#prodCategoryUpdate').val(),
+            Price: $('#prodPriceUpdate').val()
+        }
+
+        $.ajax({
+            type: 'PUT',
+            url: url,
+            data: prod,
+            success: function (data) {
+            $('#product2').text('Data Updated');
+        },
+            error: function (xHR, textStatus, err) {
+                $('#product2').text('Error: ' + err);
+            }
+        });
+    }
+    function del() {
+        var id = $('#prodIddel').val();
+        if (id === '') {
+            $('#productDel').text('Id cannot be null');
+        } else {
+            var url = 'api/Products/DeleteProduct/?id=' + id;
+            $.ajax({
+                type: 'DELETE',
+                url: url,
+                success: function (data) {
+                    $('#productDel').text('Data Deleted');
+                },
+                error: function (xhr, textStatus, err) {
+                    $('#productDel').text('Error: ' + err);
+                }
+            });
+        }
+       
+    }
+    
+    </script>
+</body>
+</html>
